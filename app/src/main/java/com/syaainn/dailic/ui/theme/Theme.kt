@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-object GongBaekTheme {
+object DailicTheme {
     val colors: DailicColors
         @Composable
         @ReadOnlyComposable

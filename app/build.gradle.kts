@@ -87,9 +87,6 @@ dependencies {
     // Testing
     testImplementation(libs.junit) // JUnit 라이브러리
     androidTestImplementation(libs.bundles.testing) // Android UI 테스트 관련 라이브러리들
-
-    // Kakao SDK
-    implementation(libs.kakao.user)
 }
 
 ktlint {

@@ -37,9 +37,6 @@ timber = "5.0.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 
-# Kakao SDK
-kakao = "2.21.0"
-
 # Android Gradle Plugin
 agp = "8.7.3"
 
@@ -88,9 +85,6 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 # --- Testing ---
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-
-# --- Kakao SDK ---
-kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
