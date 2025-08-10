@@ -15,7 +15,6 @@ class OccupationContract {
     }
 
     sealed interface SideEffect: UiSideEffect {
-        data object NavigateToBack: SideEffect
         data object NavigateToLicense: SideEffect
     }
 }

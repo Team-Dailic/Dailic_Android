@@ -1,5 +1,7 @@
 package com.syaainn.dailic.presentation.ui.occupation
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,8 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,7 +35,7 @@ import com.syaainn.dailic.ui.theme.DailicTheme
 @Composable
 fun OccupationRoute(
     viewModel: OccupationViewModel = hiltViewModel(),
-    navigateToLicense: () -> Unit
+    navigateToLicense: (Occupation) -> Unit
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -37,21 +43,14 @@ fun OccupationRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect { sideEffect ->
             when (sideEffect) {
-                OccupationContract.SideEffect.NavigateToBack -> {}
-                OccupationContract.SideEffect.NavigateToLicense -> navigateToLicense()
+                OccupationContract.SideEffect.NavigateToLicense -> navigateToLicense(uiState.selectedOccupation!!)
             }
         }
     }
 
     OccupationScreen(
         uiState = uiState,
-        onOccupationClick = { occupation ->
-            viewModel.setEvent(
-                OccupationContract.Event.OnOccupationClick(
-                    occupation
-                )
-            )
-        },
+        onOccupationClick = { occupation -> viewModel.setEvent(OccupationContract.Event.OnOccupationClick(occupation)) },
         onNextClick = { viewModel.sendSideEffect(OccupationContract.SideEffect.NavigateToLicense) }
     )
 }
@@ -62,14 +61,28 @@ fun OccupationScreen(
     onOccupationClick: (Occupation) -> Unit,
     onNextClick: () -> Unit
 ) {
+    // BackHandler Control for Exit App
+    var backPressedTime by remember { mutableLongStateOf(0L) }
+    val backPressThreshold = 2000
+    val context = LocalContext.current
+
+    BackHandler {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - backPressedTime <= backPressThreshold) {
+            (context as? Activity)?.finish()
+        } else {
+            backPressedTime = currentTime
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        // Top Bar
         DailicTopBar(
-            title = "직군 선택",
-            onLeadingIconClick = {}
+            title = "직군 선택"
         )
         Spacer(modifier = Modifier.height(80.dp))
 
@@ -119,9 +132,9 @@ fun OccupationScreen(
                 .fillMaxWidth()
                 .roundedBackgroundWithBorder(
                     cornerRadius = 8.dp,
-                    backgroundColor = DailicTheme.colors.gray600,
+                    backgroundColor = if (uiState.selectedOccupation != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray400,
                 )
-                .clickable(onClick = onNextClick),
+                .clickable(enabled = uiState.selectedOccupation != null, onClick = onNextClick),
             contentAlignment = Alignment.Center,
             content = {
                 Text(
@@ -140,7 +153,9 @@ fun OccupationScreen(
 private fun PreviewOccupationScreen() {
     DAILICTheme {
         OccupationScreen(
-            uiState = OccupationContract.State(),
+            uiState = OccupationContract.State(
+                selectedOccupation = Occupation.COMMON
+            ),
             onOccupationClick = {},
             onNextClick = {}
         )

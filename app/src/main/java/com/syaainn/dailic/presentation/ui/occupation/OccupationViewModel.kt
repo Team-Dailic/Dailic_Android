@@ -1,6 +1,5 @@
 package com.syaainn.dailic.presentation.ui.occupation
 
-import com.syaainn.dailic.presentation.model.Occupation
 import com.syaainn.dailic.presentation.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
