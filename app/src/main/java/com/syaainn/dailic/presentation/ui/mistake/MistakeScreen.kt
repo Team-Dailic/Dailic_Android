@@ -98,7 +98,7 @@ fun MistakeScreen(
                         .padding(vertical = 10.dp)
                         .roundedBackgroundWithBorder(
                             cornerRadius = 8.dp,
-                            backgroundColor = DailicTheme.colors.gray600,
+                            backgroundColor = DailicTheme.colors.gray700,
                         ),
                     content = {
                         Row(
@@ -120,7 +120,7 @@ fun MistakeScreen(
                                     .weight(1f),
                                 color = DailicTheme.colors.gray300,
                                 overflow = TextOverflow.Ellipsis,
-                                maxLines = 1,
+                                maxLines = 2,
                                 style = DailicTheme.typography.body2Medium
                             )
                             Icon(
