@@ -9,14 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.syaainn.dailic.presentation.model.License
-import com.syaainn.dailic.presentation.ui.additionalstudy.AdditionalStudyRoute
 import com.syaainn.dailic.presentation.ui.dailystudy.DailyStudyRoute
 import com.syaainn.dailic.presentation.ui.home.HomeRoute
 import com.syaainn.dailic.presentation.ui.license.LicenseRoute
 import com.syaainn.dailic.presentation.ui.mistake.MistakeRoute
 import com.syaainn.dailic.presentation.ui.occupation.OccupationRoute
-import com.syaainn.dailic.presentation.ui.score.ScoreRoute
 import com.syaainn.dailic.presentation.ui.scrap.ScrapRoute
 import com.syaainn.dailic.presentation.ui.setting.SettingRoute
 import com.syaainn.dailic.presentation.ui.splash.SplashRoute
@@ -56,43 +53,24 @@ fun DailicNavHost(
                     LicenseRoute(
                         occupation = occupation,
                         navigateToBack = { navController.popBackStack() },
-                        navigateToHome = { license -> navController.navigateToHome(license) }
+                        navigateToHome = { navController.navigateToHome() }
                     )
                 }
             }
 
-            composable<Route.Home> { backStackEntry ->
-                backStackEntry.toRoute<Route.Home>().apply {
-                    HomeRoute(
-                        license = license,
-                        navigateToSetting = { navController.navigateToSetting() },
-                        navigateToDailyStudy = { navController.navigateToDailyStudy() },
-                        navigateToMistake = { navController.navigateToMistake() },
-                        navigateToScrap = { navController.navigateToScrap() }
-                    )
-                }
+            composable<Route.Home> {
+                HomeRoute(
+                    navigateToSetting = { navController.navigateToSetting() },
+                    navigateToDailyStudy = { navController.navigateToDailyStudy() },
+                    navigateToMistake = { navController.navigateToMistake() },
+                    navigateToScrap = { navController.navigateToScrap() }
+                )
             }
 
             composable<Route.DailyStudy> {
                 DailyStudyRoute(
                     navigateToBack = { navController.popBackStack() },
-                    navigateToScore = { score -> navController.navigateToScore(score) }
-                )
-            }
-
-            composable<Route.Score> { backStackEntry ->
-                backStackEntry.toRoute<Route.Score>().apply {
-                    ScoreRoute(
-                        score = score,
-                        navigateToHome = { license -> navController.navigateToHome(license) },
-                        navigateToAdditionalStudy = { navController.navigateToAdditionalStudy() }
-                    )
-                }
-            }
-
-            composable<Route.AdditionalStudy> {
-                AdditionalStudyRoute(
-                    navigateToHome = { license -> navController.navigateToHome(license) }
+                    navigateToHome = { navController.navigateToHome() }
                 )
             }
 

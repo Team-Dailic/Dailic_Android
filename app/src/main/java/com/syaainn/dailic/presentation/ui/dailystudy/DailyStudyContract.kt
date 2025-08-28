@@ -25,7 +25,6 @@ class DailyStudyContract {
         data object OnConfirmExitDialog: Event()
         data object OnScrapClick: Event()
         data class OnAnswerClick(val optionNum: Int): Event()
-        data object OnPreviousQuestionClick: Event()
         data object OnNextQuestionClick: Event()
         data object OnSubmitClick: Event()
         data object OnDismissSubmitDialog: Event()
@@ -34,6 +33,6 @@ class DailyStudyContract {
 
     sealed interface SideEffect: UiSideEffect {
         data object NavigateToBack: SideEffect
-        data class NavigateToScore(val score: List<Boolean>): SideEffect
+        data object NavigateToHome: SideEffect
     }
 }

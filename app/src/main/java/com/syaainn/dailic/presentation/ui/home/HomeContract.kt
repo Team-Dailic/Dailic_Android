@@ -20,7 +20,7 @@ class HomeContract {
     }
 
     sealed class Event : UiEvent {
-        data class SetLicense(val license: License): Event()
+        data object SetLicense: Event()
         data object ShowLicenseSelector : Event()
         data object DismissLicenseSelector : Event()
         data class OnOccupationClick(val selectedOccupation: Occupation): Event()

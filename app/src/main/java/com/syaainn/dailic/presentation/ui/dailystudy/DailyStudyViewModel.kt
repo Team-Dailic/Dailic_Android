@@ -31,9 +31,6 @@ class DailyStudyViewModel @Inject constructor(
                 newAnswerList[currentState.currentQuestionNum - 1] = event.optionNum
                 setState { copy(userAnswerList = newAnswerList) }
             }
-            is DailyStudyContract.Event.OnPreviousQuestionClick -> {
-                setState { copy(currentQuestionNum = currentQuestionNum - 1) }
-            }
             is DailyStudyContract.Event.OnNextQuestionClick -> {
                 setState { copy(currentQuestionNum = currentQuestionNum + 1) }
             }
@@ -45,16 +42,10 @@ class DailyStudyViewModel @Inject constructor(
             }
             is DailyStudyContract.Event.OnConfirmSubmitDialog -> {
                 setState { copy(showSubmitDialog = false) }
-                setSideEffect(DailyStudyContract.SideEffect.NavigateToScore(getScore()))
+                setSideEffect(DailyStudyContract.SideEffect.NavigateToHome)
             }
         }
     }
 
     fun sendSideEffect(sideEffect: DailyStudyContract.SideEffect) = setSideEffect(sideEffect)
-
-    fun getScore(): List<Boolean> {
-        return currentState.userAnswerList.mapIndexed { index, userAnswer ->
-            userAnswer == currentState.todayQuestions[index].answerNum
-        }
-    }
 }

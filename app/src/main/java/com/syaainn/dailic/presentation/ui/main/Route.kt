@@ -19,20 +19,10 @@ sealed interface Route {
     ): Route
 
     @Serializable
-    data class Home(
-        val license: License
-    ): Route
+    data object Home: Route
 
     @Serializable
     data object DailyStudy: Route
-
-    @Serializable
-    data class Score(
-        val score: List<Boolean>
-    ): Route
-
-    @Serializable
-    data object AdditionalStudy: Route
 
     @Serializable
     data object Mistake: Route

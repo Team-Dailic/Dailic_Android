@@ -33,7 +33,7 @@ fun LicenseRoute(
     viewModel: LicenseViewModel = hiltViewModel(),
     occupation: Occupation,
     navigateToBack: () -> Unit,
-    navigateToHome: (License) -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -42,7 +42,7 @@ fun LicenseRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect { sideEffect ->
             when (sideEffect) {
                 LicenseContract.SideEffect.NavigateToBack -> navigateToBack()
-                LicenseContract.SideEffect.NavigateToHome -> navigateToHome(uiState.selectedLicense!!)
+                LicenseContract.SideEffect.NavigateToHome -> navigateToHome()
             }
         }
     }

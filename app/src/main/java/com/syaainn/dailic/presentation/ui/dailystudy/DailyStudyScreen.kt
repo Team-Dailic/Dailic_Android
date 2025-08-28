@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.syaainn.dailic.R
+import com.syaainn.dailic.presentation.model.License
 import com.syaainn.dailic.presentation.ui.component.DailicDialog
 import com.syaainn.dailic.presentation.ui.component.DailicTopBar
 import com.syaainn.dailic.presentation.util.roundedBackgroundWithBorder
@@ -46,7 +47,7 @@ import com.syaainn.dailic.ui.theme.DailicTheme
 fun DailyStudyRoute(
     viewModel: DailyStudyViewModel = hiltViewModel(),
     navigateToBack: () -> Unit,
-    navigateToScore: (List<Boolean>) -> Unit
+    navigateToHome: () -> Unit,
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -55,7 +56,7 @@ fun DailyStudyRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect { sideEffect ->
             when (sideEffect) {
                 is DailyStudyContract.SideEffect.NavigateToBack -> navigateToBack()
-                is DailyStudyContract.SideEffect.NavigateToScore -> navigateToScore(sideEffect.score)
+                is DailyStudyContract.SideEffect.NavigateToHome -> navigateToHome()
             }
         }
     }
@@ -66,7 +67,6 @@ fun DailyStudyRoute(
         onConfirmExitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnConfirmExitDialog) },
         onDismissExitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnDismissExitDialog) },
         onAnswerClick = { optionNum -> viewModel.setEvent(DailyStudyContract.Event.OnAnswerClick(optionNum)) },
-        onPreviousQuestionClick = { viewModel.setEvent(DailyStudyContract.Event.OnPreviousQuestionClick) },
         onNextQuestionClick = { viewModel.setEvent(DailyStudyContract.Event.OnNextQuestionClick) },
         onSubmitClick = { viewModel.setEvent(DailyStudyContract.Event.OnSubmitClick) },
         onConfirmSubmitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnConfirmSubmitDialog) },
@@ -81,7 +81,6 @@ fun DailyStudyScreen(
     onConfirmExitDialog: () -> Unit,
     onDismissExitDialog: () -> Unit,
     onAnswerClick: (Int) -> Unit,
-    onPreviousQuestionClick: () -> Unit,
     onNextQuestionClick: () -> Unit,
     onSubmitClick: () -> Unit,
     onConfirmSubmitDialog: () -> Unit,
@@ -179,24 +178,6 @@ fun DailyStudyScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             content = {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .roundedBackgroundWithBorder(
-                            cornerRadius = 8.dp,
-                            backgroundColor = if (uiState.currentQuestionNum > 1) DailicTheme.colors.gray800 else DailicTheme.colors.gray400)
-                        .clickable(enabled = uiState.currentQuestionNum > 1, onClick = onPreviousQuestionClick),
-                    contentAlignment = Alignment.Center,
-                    content = {
-                        Text(
-                            text = "이전 문제",
-                            modifier = Modifier.padding(vertical = 12.dp),
-                            color = DailicTheme.colors.primaryBeige1,
-                            style = DailicTheme.typography.body1Bold,
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
                 if(uiState.currentQuestionNum == 20) {
                     Box(
                         modifier = Modifier
@@ -226,7 +207,7 @@ fun DailyStudyScreen(
                         contentAlignment = Alignment.Center,
                         content = {
                             Text(
-                                text = "다음 문제",
+                                text = "정답 제출",
                                 modifier = Modifier.padding(vertical = 12.dp),
                                 color = DailicTheme.colors.primaryBeige1,
                                 style = DailicTheme.typography.body1Bold,
@@ -276,7 +257,6 @@ private fun PreviewDailyStudyScreen() {
                 onConfirmExitDialog = {},
                 onDismissExitDialog = {},
                 onAnswerClick = {},
-                onPreviousQuestionClick = {},
                 onNextQuestionClick = {},
                 onSubmitClick = {},
                 onConfirmSubmitDialog = {},

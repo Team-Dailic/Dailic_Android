@@ -23,7 +23,7 @@ class LicenseViewModel @Inject constructor(
                 setState { copy(selectedLicense = event.selectedLicense) }
             }
             is LicenseContract.Event.OnCompleteClick -> {
-                selectLicense(occupation = event.selectedOccupation, license = currentState.selectedLicense!!)
+                selectLicense(occupation = event.selectedOccupation, license = currentState.selectedLicense ?: License.DRIVING)
             }
         }
     }
@@ -44,7 +44,7 @@ class LicenseViewModel @Inject constructor(
                     }
                 },
                 onFailure = {
-
+                    setSideEffect(LicenseContract.SideEffect.NavigateToHome)
                 }
             )
         }

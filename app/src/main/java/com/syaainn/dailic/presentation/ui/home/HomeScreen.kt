@@ -51,7 +51,6 @@ import com.syaainn.dailic.ui.theme.DailicTheme
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
-    license: License,
     navigateToSetting: () -> Unit,
     navigateToDailyStudy: () -> Unit,
     navigateToMistake: () -> Unit,
@@ -61,7 +60,7 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        viewModel.setEvent(HomeContract.Event.SetLicense(license))
+        viewModel.setEvent(HomeContract.Event.SetLicense)
     }
 
     LaunchedEffect(Unit) {
