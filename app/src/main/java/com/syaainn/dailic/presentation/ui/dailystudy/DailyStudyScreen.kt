@@ -163,7 +163,7 @@ fun DailyStudyScreen(
                     .align(Alignment.Start)
                     .padding(vertical = 4.dp)
                     .clickable(onClick = { onAnswerClick(index+1) }),
-                color = if (uiState.userAnswerList[uiState.currentQuestionNum - 1] == index + 1) 
+                color = if (uiState.selectedAnswer == index + 1)
                     DailicTheme.colors.subGreen1 
                 else 
                     DailicTheme.colors.gray800,
@@ -184,8 +184,12 @@ fun DailyStudyScreen(
                             .weight(1f)
                             .roundedBackgroundWithBorder(
                                 cornerRadius = 8.dp,
-                                backgroundColor = DailicTheme.colors.subGreen1)
-                            .clickable(onClick = onSubmitClick),
+                                backgroundColor = if(uiState.selectedAnswer != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray300
+                            )
+                            .clickable(
+                                enabled = uiState.selectedAnswer != null,
+                                onClick = onSubmitClick
+                            ),
                         contentAlignment = Alignment.Center,
                         content = {
                             Text(
@@ -202,8 +206,12 @@ fun DailyStudyScreen(
                             .weight(1f)
                             .roundedBackgroundWithBorder(
                                 cornerRadius = 8.dp,
-                                backgroundColor = DailicTheme.colors.gray800)
-                            .clickable(onClick = onNextQuestionClick),
+                                backgroundColor = if(uiState.selectedAnswer != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray300
+                            )
+                            .clickable(
+                                enabled = uiState.selectedAnswer != null,
+                                onClick = onNextQuestionClick
+                            ),
                         contentAlignment = Alignment.Center,
                         content = {
                             Text(

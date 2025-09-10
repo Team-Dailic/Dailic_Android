@@ -27,12 +27,10 @@ class DailyStudyViewModel @Inject constructor(
 
             }
             is DailyStudyContract.Event.OnAnswerClick -> {
-                val newAnswerList = currentState.userAnswerList.clone()
-                newAnswerList[currentState.currentQuestionNum - 1] = event.optionNum
-                setState { copy(userAnswerList = newAnswerList) }
+                setState { copy(selectedAnswer = event.optionNum) }
             }
             is DailyStudyContract.Event.OnNextQuestionClick -> {
-                setState { copy(currentQuestionNum = currentQuestionNum + 1) }
+                setState { copy(currentQuestionNum = currentQuestionNum + 1, selectedAnswer = null) }
             }
             is DailyStudyContract.Event.OnSubmitClick -> {
                 setState { copy(showSubmitDialog = true) }

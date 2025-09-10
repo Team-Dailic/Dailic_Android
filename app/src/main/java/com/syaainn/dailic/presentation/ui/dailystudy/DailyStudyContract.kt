@@ -11,11 +11,11 @@ class DailyStudyContract {
         val currentQuestionNum: Int = 1,
         val totalQuestionNum: Int = 20,
         val todayQuestions: List<Question> = DailyStudyDummy.questionList,
-        val userAnswerList: IntArray = IntArray(totalQuestionNum) { 0 },
+        val selectedAnswer: Int? = null,
         val showExitDialog: Boolean = false,
         val showSubmitDialog: Boolean = false,
     ): UiState {
-        val progress: Float = userAnswerList.count { it != 0 }.toFloat() / totalQuestionNum
+        val progress: Float = currentQuestionNum.toFloat() / totalQuestionNum
         val progressWeight = progress.coerceIn(0.0001f, 0.9999f)
     }
 
