@@ -12,8 +12,9 @@ class DailyStudyContract {
         val totalQuestionNum: Int = 20,
         val todayQuestions: List<Question> = DailyStudyDummy.questionList,
         val selectedAnswer: Int? = null,
+        val dailyStudyState: DailyStudyState = DailyStudyState.IDLE,
         val showExitDialog: Boolean = false,
-        val showSubmitDialog: Boolean = false,
+        val showFinishDialog: Boolean = false,
     ): UiState {
         val progress: Float = currentQuestionNum.toFloat() / totalQuestionNum
         val progressWeight = progress.coerceIn(0.0001f, 0.9999f)
@@ -25,10 +26,11 @@ class DailyStudyContract {
         data object OnConfirmExitDialog: Event()
         data object OnScrapClick: Event()
         data class OnAnswerClick(val optionNum: Int): Event()
-        data object OnNextQuestionClick: Event()
         data object OnSubmitClick: Event()
-        data object OnDismissSubmitDialog: Event()
-        data object OnConfirmSubmitDialog: Event()
+        data object OnNextQuestionClick: Event()
+        data object OnFinishClick: Event()
+        data object OnDismissFinishDialog: Event()
+        data object OnConfirmFinishDialog: Event()
     }
 
     sealed interface SideEffect: UiSideEffect {

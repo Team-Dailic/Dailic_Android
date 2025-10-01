@@ -1,6 +1,5 @@
 package com.syaainn.dailic.presentation.ui.main
 
-import com.syaainn.dailic.presentation.model.License
 import com.syaainn.dailic.presentation.model.Occupation
 import kotlinx.serialization.Serializable
 
