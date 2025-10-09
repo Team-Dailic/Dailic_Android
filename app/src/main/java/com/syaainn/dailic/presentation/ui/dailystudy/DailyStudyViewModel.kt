@@ -40,6 +40,10 @@ class DailyStudyViewModel @Inject constructor(
                 } else setState { copy(dailyStudyState = DailyStudyState.SUBMIT) }
             }
 
+            is DailyStudyContract.Event.OnAiQuestionChange -> {
+                setState { copy(aiQuestion = event.newValue) }
+            }
+
             is DailyStudyContract.Event.OnNextQuestionClick -> {
                 setState {
                     copy(
