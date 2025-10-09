@@ -22,28 +22,15 @@ fun NavController.navigateToLicense(occupation: Occupation) {
     )
 }
 
-fun NavController.navigateToHome(license: License) {
+fun NavController.navigateToHome() {
     navigate(
-        route = Route.Home(license = license)
+        route = Route.Home
     )
 }
 
 fun NavController.navigateToDailyStudy() {
     navigate(
         route = Route.DailyStudy
-    )
-}
-
-fun NavController.navigateToScore(score: List<Boolean>) {
-    navigate(
-        route = Route.Score(score = score)
-    )
-
-}
-
-fun NavController.navigateToAdditionalStudy() {
-    navigate(
-        route = Route.AdditionalStudy
     )
 }
 

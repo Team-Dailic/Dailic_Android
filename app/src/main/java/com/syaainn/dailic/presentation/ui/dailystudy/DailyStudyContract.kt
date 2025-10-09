@@ -11,11 +11,13 @@ class DailyStudyContract {
         val currentQuestionNum: Int = 1,
         val totalQuestionNum: Int = 20,
         val todayQuestions: List<Question> = DailyStudyDummy.questionList,
-        val userAnswerList: IntArray = IntArray(totalQuestionNum) { 0 },
+        val selectedAnswer: Int? = null,
+        val dailyStudyState: DailyStudyState = DailyStudyState.IDLE,
         val showExitDialog: Boolean = false,
-        val showSubmitDialog: Boolean = false,
+        val showFinishDialog: Boolean = false,
+        val aiQuestion: String = ""
     ): UiState {
-        val progress: Float = userAnswerList.count { it != 0 }.toFloat() / totalQuestionNum
+        val progress: Float = currentQuestionNum.toFloat() / totalQuestionNum
         val progressWeight = progress.coerceIn(0.0001f, 0.9999f)
     }
 
@@ -25,15 +27,16 @@ class DailyStudyContract {
         data object OnConfirmExitDialog: Event()
         data object OnScrapClick: Event()
         data class OnAnswerClick(val optionNum: Int): Event()
-        data object OnPreviousQuestionClick: Event()
-        data object OnNextQuestionClick: Event()
         data object OnSubmitClick: Event()
-        data object OnDismissSubmitDialog: Event()
-        data object OnConfirmSubmitDialog: Event()
+        data class OnAiQuestionChange(val newValue: String): Event()
+        data object OnNextQuestionClick: Event()
+        data object OnFinishClick: Event()
+        data object OnDismissFinishDialog: Event()
+        data object OnConfirmFinishDialog: Event()
     }
 
     sealed interface SideEffect: UiSideEffect {
         data object NavigateToBack: SideEffect
-        data class NavigateToScore(val score: List<Boolean>): SideEffect
+        data object NavigateToHome: SideEffect
     }
 }

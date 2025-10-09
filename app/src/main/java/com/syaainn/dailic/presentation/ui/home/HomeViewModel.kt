@@ -17,7 +17,7 @@ class HomeViewModel @Inject constructor(
     override suspend fun handleEvent(event: HomeContract.Event) {
         when(event) {
             is HomeContract.Event.SetLicense -> {
-                changeLicense(license = event.license)
+                setLicense()
             }
             is HomeContract.Event.ShowLicenseSelector -> {
                 setState { copy(showChangeLicenseBottomSheet = true) }
@@ -38,6 +38,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun sendSideEffect(sideEffect: HomeContract.SideEffect) = setSideEffect(sideEffect)
+
+    private fun setLicense() {
+        setState { copy(license = License.DRIVING) }
+    }
 
     private fun changeLicense(license: License) {
         val homeDummy = HomeDummy.entries.find { it.name == license.name } ?: HomeDummy.DRIVING

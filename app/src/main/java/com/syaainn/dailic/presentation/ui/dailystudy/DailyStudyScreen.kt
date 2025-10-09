@@ -12,10 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,11 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.syaainn.dailic.R
 import com.syaainn.dailic.presentation.ui.component.DailicDialog
+import com.syaainn.dailic.presentation.ui.component.DailicTextField
 import com.syaainn.dailic.presentation.ui.component.DailicTopBar
 import com.syaainn.dailic.presentation.util.roundedBackgroundWithBorder
 import com.syaainn.dailic.ui.theme.DAILICTheme
@@ -46,7 +45,7 @@ import com.syaainn.dailic.ui.theme.DailicTheme
 fun DailyStudyRoute(
     viewModel: DailyStudyViewModel = hiltViewModel(),
     navigateToBack: () -> Unit,
-    navigateToScore: (List<Boolean>) -> Unit
+    navigateToHome: () -> Unit,
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -55,7 +54,7 @@ fun DailyStudyRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect { sideEffect ->
             when (sideEffect) {
                 is DailyStudyContract.SideEffect.NavigateToBack -> navigateToBack()
-                is DailyStudyContract.SideEffect.NavigateToScore -> navigateToScore(sideEffect.score)
+                is DailyStudyContract.SideEffect.NavigateToHome -> navigateToHome()
             }
         }
     }
@@ -65,27 +64,35 @@ fun DailyStudyRoute(
         onBackClick = { viewModel.setEvent(DailyStudyContract.Event.OnBackClick) },
         onConfirmExitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnConfirmExitDialog) },
         onDismissExitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnDismissExitDialog) },
-        onAnswerClick = { optionNum -> viewModel.setEvent(DailyStudyContract.Event.OnAnswerClick(optionNum)) },
-        onPreviousQuestionClick = { viewModel.setEvent(DailyStudyContract.Event.OnPreviousQuestionClick) },
-        onNextQuestionClick = { viewModel.setEvent(DailyStudyContract.Event.OnNextQuestionClick) },
+        onAnswerClick = { optionNum ->
+            viewModel.setEvent(
+                DailyStudyContract.Event.OnAnswerClick(
+                    optionNum
+                )
+            )
+        },
         onSubmitClick = { viewModel.setEvent(DailyStudyContract.Event.OnSubmitClick) },
-        onConfirmSubmitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnConfirmSubmitDialog) },
-        onDismissSubmitDialog = { viewModel.setEvent(DailyStudyContract.Event.OnDismissSubmitDialog) }
+        onAiQuestionChange = { newValue -> viewModel.setEvent(DailyStudyContract.Event.OnAiQuestionChange(newValue)) },
+        onNextQuestionClick = { viewModel.setEvent(DailyStudyContract.Event.OnNextQuestionClick) },
+        onFinishClick = { viewModel.setEvent(DailyStudyContract.Event.OnFinishClick) },
+        onConfirmFinishDialog = { viewModel.setEvent(DailyStudyContract.Event.OnConfirmFinishDialog) },
+        onDismissFinishDialog = { viewModel.setEvent(DailyStudyContract.Event.OnDismissFinishDialog) }
     )
 }
 
 @Composable
-fun DailyStudyScreen(
+private fun DailyStudyScreen(
     uiState: DailyStudyContract.State,
     onBackClick: () -> Unit,
     onConfirmExitDialog: () -> Unit,
     onDismissExitDialog: () -> Unit,
     onAnswerClick: (Int) -> Unit,
-    onPreviousQuestionClick: () -> Unit,
-    onNextQuestionClick: () -> Unit,
     onSubmitClick: () -> Unit,
-    onConfirmSubmitDialog: () -> Unit,
-    onDismissSubmitDialog: () -> Unit,
+    onAiQuestionChange: (String) -> Unit,
+    onNextQuestionClick: () -> Unit,
+    onFinishClick: () -> Unit,
+    onConfirmFinishDialog: () -> Unit,
+    onDismissFinishDialog: () -> Unit,
 ) {
     // Back Handler Control for Go Home
     BackHandler {
@@ -104,12 +111,12 @@ fun DailyStudyScreen(
             leadingIcon = R.drawable.img_top_bar_back,
             onLeadingIconClick = onBackClick
         )
-        Spacer(modifier = Modifier.height(20.dp))
 
         // Progress Bar
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(vertical = 20.dp)
                 .clip(shape = RoundedCornerShape(4.dp)),
             verticalAlignment = Alignment.CenterVertically,
             content = {
@@ -128,114 +135,157 @@ fun DailyStudyScreen(
             }
         )
 
-        // Question Section
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 24.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            content = {
-                Text(
-                    text = "문제 ${uiState.currentQuestionNum}.",
-                    color = DailicTheme.colors.gray800,
-                    style = DailicTheme.typography.title1Bold
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Image(
-                    painter = painterResource(id = R.drawable.img_scrap),
-                    contentDescription = null,
-                    modifier = Modifier.padding(12.dp),
-                    colorFilter = ColorFilter.tint(color = if (uiState.todayQuestions[uiState.currentQuestionNum - 1].isScraped == true) Color.Yellow else DailicTheme.colors.gray300)
-                )
-            }
-        )
-        Text(
-            text = uiState.todayQuestions[uiState.currentQuestionNum - 1].content,
-            modifier = Modifier.fillMaxWidth(),
-            color = DailicTheme.colors.gray800,
-            lineHeight = 1.5.em,
-            style = DailicTheme.typography.body2Medium
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        uiState.todayQuestions[uiState.currentQuestionNum - 1].options.forEachIndexed { index, option ->
-            Text(
-                text = "${index + 1}. $option",
-                modifier = Modifier
-                    .align(Alignment.Start)
-                    .padding(vertical = 4.dp)
-                    .clickable(onClick = { onAnswerClick(index+1) }),
-                color = if (uiState.userAnswerList[uiState.currentQuestionNum - 1] == index + 1) 
-                    DailicTheme.colors.subGreen1 
-                else 
-                    DailicTheme.colors.gray800,
-                style = DailicTheme.typography.body4Regular
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Bottom Button Section
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            content = {
-                Box(
+        LazyColumn(
+            modifier = Modifier.weight(1f)
+        ) {
+            item {
+                // Question Section
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .roundedBackgroundWithBorder(
-                            cornerRadius = 8.dp,
-                            backgroundColor = if (uiState.currentQuestionNum > 1) DailicTheme.colors.gray800 else DailicTheme.colors.gray400)
-                        .clickable(enabled = uiState.currentQuestionNum > 1, onClick = onPreviousQuestionClick),
-                    contentAlignment = Alignment.Center,
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                     content = {
                         Text(
-                            text = "이전 문제",
-                            modifier = Modifier.padding(vertical = 12.dp),
-                            color = DailicTheme.colors.primaryBeige1,
-                            style = DailicTheme.typography.body1Bold,
+                            text = "문제 ${uiState.currentQuestionNum}.",
+                            color = DailicTheme.colors.gray800,
+                            style = DailicTheme.typography.title1Bold
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Image(
+                            painter = painterResource(id = R.drawable.img_scrap),
+                            contentDescription = null,
+                            modifier = Modifier.padding(12.dp),
+                            colorFilter = ColorFilter.tint(color = if (uiState.todayQuestions[uiState.currentQuestionNum - 1].isScraped == true) Color.Yellow else DailicTheme.colors.gray300)
                         )
                     }
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                if(uiState.currentQuestionNum == 20) {
-                    Box(
+                Text(
+                    text = uiState.todayQuestions[uiState.currentQuestionNum - 1].content,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = DailicTheme.colors.gray800,
+                    lineHeight = 1.5.em,
+                    style = DailicTheme.typography.body2Medium
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                uiState.todayQuestions[uiState.currentQuestionNum - 1].options.forEachIndexed { index, option ->
+                    Text(
+                        text = "${index + 1}. $option",
                         modifier = Modifier
-                            .weight(1f)
-                            .roundedBackgroundWithBorder(
-                                cornerRadius = 8.dp,
-                                backgroundColor = DailicTheme.colors.subGreen1)
-                            .clickable(onClick = onSubmitClick),
-                        contentAlignment = Alignment.Center,
-                        content = {
-                            Text(
-                                text = "제출하기",
-                                modifier = Modifier.padding(vertical = 12.dp),
-                                color = DailicTheme.colors.primaryBeige1,
-                                style = DailicTheme.typography.body1Bold,
-                            )
-                        }
+                            .align(Alignment.Start)
+                            .padding(vertical = 4.dp)
+                            .clickable(
+                                enabled = uiState.dailyStudyState == DailyStudyState.IDLE,
+                                onClick = { onAnswerClick(index + 1) }
+                            ),
+                        color = when {
+                            uiState.selectedAnswer == index + 1 -> DailicTheme.colors.subGreen1
+                            uiState.dailyStudyState != DailyStudyState.IDLE &&
+                                    uiState.todayQuestions[uiState.currentQuestionNum - 1].answerNum == index + 1 -> Color.Blue
+
+                            else -> DailicTheme.colors.gray800
+                        },
+                        style = DailicTheme.typography.body4Regular
                     )
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .roundedBackgroundWithBorder(
-                                cornerRadius = 8.dp,
-                                backgroundColor = DailicTheme.colors.gray800)
-                            .clickable(onClick = onNextQuestionClick),
-                        contentAlignment = Alignment.Center,
-                        content = {
-                            Text(
-                                text = "다음 문제",
-                                modifier = Modifier.padding(vertical = 12.dp),
-                                color = DailicTheme.colors.primaryBeige1,
-                                style = DailicTheme.typography.body1Bold,
-                            )
-                        }
-                    )
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
-        )
+
+            item {
+                if (uiState.dailyStudyState != DailyStudyState.IDLE) {
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 30.dp),
+                        thickness = 1.dp,
+                        color = DailicTheme.colors.gray400
+                    )
+                    // Answer Section
+                    Text(
+                        text = "[ 해설 ]",
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(bottom = 10.dp),
+                        color = DailicTheme.colors.gray700,
+                        style = DailicTheme.typography.title2Medium
+                    )
+                    Text(
+                        text = uiState.todayQuestions[uiState.currentQuestionNum - 1].answerContent,
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        color = DailicTheme.colors.gray600,
+                        lineHeight = 1.5.em,
+                        style = DailicTheme.typography.body4Regular
+                    )
+                    // Ai Question Section
+                    Column {
+                        Text(
+                            text = "[ AI에게 질문하기 ]",
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(bottom = 10.dp),
+                            color = DailicTheme.colors.gray700,
+                            style = DailicTheme.typography.title2Medium
+                        )
+                        DailicTextField(
+                            value = uiState.aiQuestion,
+                            onValueChange = onAiQuestionChange,
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.End)
+                                .roundedBackgroundWithBorder(
+                                    cornerRadius = 8.dp,
+                                    backgroundColor = if (uiState.aiQuestion.isNotBlank()) DailicTheme.colors.gray800 else DailicTheme.colors.gray300
+                                )
+                                .clickable(
+                                    enabled = uiState.aiQuestion.isNotBlank(),
+                                    onClick = { }
+                                ),
+                            contentAlignment = Alignment.Center,
+                            content = {
+                                Text(
+                                    text = "전송하기",
+                                    modifier = Modifier.padding(12.dp),
+                                    color = DailicTheme.colors.primaryBeige1,
+                                    style = DailicTheme.typography.body1Bold,
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
+        // Bottom Button Section
+        when (uiState.dailyStudyState) {
+            DailyStudyState.IDLE -> {
+                DailyStudyBottomButton(
+                    text = "정답제출",
+                    enabled = uiState.selectedAnswer != null,
+                    onClick = onSubmitClick,
+                    modifier = Modifier
+                )
+            }
+
+            DailyStudyState.SUBMIT -> {
+                DailyStudyBottomButton(
+                    text = "다음문제",
+                    enabled = true,
+                    onClick = onNextQuestionClick,
+                    modifier = Modifier
+                )
+            }
+
+            DailyStudyState.FINIAL_QUESTION -> {
+                DailyStudyBottomButton(
+                    text = "완료하기",
+                    enabled = uiState.selectedAnswer != null,
+                    onClick = onFinishClick,
+                    modifier = Modifier
+                )
+            }
+        }
     }
 
     if (uiState.showExitDialog) {
@@ -249,16 +299,46 @@ fun DailyStudyScreen(
         )
     }
 
-    if (uiState.showSubmitDialog) {
+    if (uiState.showFinishDialog) {
         DailicDialog(
             titleMassage = "답안을 제출할까요?",
             descriptionMassage = "정답을 채점하고\n오늘의 학습을 마무리해요.",
             confirmOption = "제출할래요",
-            onConfirm = onConfirmSubmitDialog,
+            onConfirm = onConfirmFinishDialog,
             dismissOption = "아니요",
-            onDismiss = onDismissSubmitDialog
+            onDismiss = onDismissFinishDialog
         )
     }
+}
+
+@Composable
+private fun DailyStudyBottomButton(
+    text: String,
+    enabled: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .roundedBackgroundWithBorder(
+                cornerRadius = 8.dp,
+                backgroundColor = if (enabled) DailicTheme.colors.gray800 else DailicTheme.colors.gray300
+            )
+            .clickable(
+                enabled = enabled,
+                onClick = onClick
+            ),
+        contentAlignment = Alignment.Center,
+        content = {
+            Text(
+                text = text,
+                modifier = Modifier.padding(vertical = 12.dp),
+                color = DailicTheme.colors.primaryBeige1,
+                style = DailicTheme.typography.body1Bold,
+            )
+        }
+    )
 }
 
 @Preview(showBackground = true)
@@ -271,16 +351,19 @@ private fun PreviewDailyStudyScreen() {
                 .background(color = DailicTheme.colors.primaryBeige1),
         ) {
             DailyStudyScreen(
-                uiState = DailyStudyContract.State(),
+                uiState = DailyStudyContract.State(
+                    dailyStudyState = DailyStudyState.SUBMIT
+                ),
                 onBackClick = {},
                 onConfirmExitDialog = {},
                 onDismissExitDialog = {},
                 onAnswerClick = {},
-                onPreviousQuestionClick = {},
-                onNextQuestionClick = {},
                 onSubmitClick = {},
-                onConfirmSubmitDialog = {},
-                onDismissSubmitDialog = {}
+                onAiQuestionChange = { _ -> },
+                onNextQuestionClick = {},
+                onFinishClick = {},
+                onConfirmFinishDialog = {},
+                onDismissFinishDialog = {}
             )
         }
     }
