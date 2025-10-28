@@ -6,8 +6,6 @@ import java.io.Serial
 
 @Serializable
 data class SelectLicenseRequestDto(
-    @SerialName("occupation")
-    val occupation: String,
-    @SerialName("license")
-    val license: String
+    @SerialName("occupation") val occupation: String,
+    @SerialName("license") val license: String
 )

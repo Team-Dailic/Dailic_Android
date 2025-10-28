@@ -80,7 +80,7 @@ fun HomeRoute(
         onDismissClick = { viewModel.setEvent(HomeContract.Event.DismissLicenseSelector) },
         onOccupationClick = { selectedOccupation -> viewModel.setEvent(HomeContract.Event.OnOccupationClick(selectedOccupation)) },
         onLicenseClick = { selectedLicense -> viewModel.setEvent(HomeContract.Event.OnLicenseClick(selectedLicense)) },
-        onChangeLicenseClick = { viewModel.setEvent(HomeContract.Event.ChangeLicense(uiState.selectedLicense!!)) },
+        onChangeLicenseClick = { viewModel.setEvent(HomeContract.Event.ChangeLicense) },
         onSettingClick = { viewModel.sendSideEffect(HomeContract.SideEffect.NavigateToSetting) },
         onDailyStudyClick = { viewModel.sendSideEffect(HomeContract.SideEffect.NavigateToDailyStudy) },
         onMistakeClick = { viewModel.sendSideEffect(HomeContract.SideEffect.NavigateToMistake) },

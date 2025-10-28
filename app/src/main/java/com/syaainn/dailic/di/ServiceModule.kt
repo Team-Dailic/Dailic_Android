@@ -1,6 +1,6 @@
 package com.syaainn.dailic.di
 
-import com.syaainn.dailic.data.service.UserService
+import com.syaainn.dailic.data.service.LicenseService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +14,6 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): UserService =
-        retrofit.create(UserService::class.java)
+    fun provideLicenseService(retrofit: Retrofit): LicenseService =
+        retrofit.create(LicenseService::class.java)
 }

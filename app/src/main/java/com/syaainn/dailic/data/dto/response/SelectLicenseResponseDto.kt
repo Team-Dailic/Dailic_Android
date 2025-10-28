@@ -5,14 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SelectLicenseResponseDto(
-    @SerialName("userId")
-    val userId: Long,
-    @SerialName("occupation")
-    val occupation: String,
-    @SerialName("license")
-    val license: String,
-    @SerialName("status")
-    val status: String,
-    @SerialName("message")
-    val message: String
+    @SerialName("userId") val userId: Long,
+    @SerialName("occupation") val occupation: String,
+    @SerialName("license") val license: String
 )

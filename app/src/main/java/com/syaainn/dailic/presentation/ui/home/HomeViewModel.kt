@@ -1,15 +1,19 @@
 package com.syaainn.dailic.presentation.ui.home
 
-import com.syaainn.dailic.data.dummy.HomeDummy
+import androidx.lifecycle.viewModelScope
+import com.syaainn.dailic.data.dto.request.SelectLicenseRequestDto
+import com.syaainn.dailic.data.service.LicenseService
 import com.syaainn.dailic.presentation.model.License
 import com.syaainn.dailic.presentation.model.Occupation
 import com.syaainn.dailic.presentation.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-
+    private val licenseService: LicenseService
 ): BaseViewModel<HomeContract.State, HomeContract.Event, HomeContract.SideEffect>() {
 
     override fun createInitialState(): HomeContract.State = HomeContract.State()
@@ -32,7 +36,7 @@ class HomeViewModel @Inject constructor(
                 setState { copy(selectedLicense = event.selectedLicense) }
             }
             is HomeContract.Event.ChangeLicense -> {
-                changeLicense(license = event.license)
+                changeLicense()
             }
         }
     }
@@ -40,19 +44,52 @@ class HomeViewModel @Inject constructor(
     fun sendSideEffect(sideEffect: HomeContract.SideEffect) = setSideEffect(sideEffect)
 
     private fun setLicense() {
-        setState { copy(license = License.DRIVING) }
+        viewModelScope.launch {
+            runCatching { licenseService.getCurrentLicense() }.fold(
+                onSuccess = { response ->
+                    if(response.status == 200) {
+                        setState{ copy(
+                            occupation = Occupation.entries.find { it.name == response.data.occupation },
+                            license = License.entries.find { it.title == response.data.license },
+                            total = response.data.totalQuestion,
+                            solved = response.data.solvedQuestion
+                        )}
+                    } else {
+                        Timber.tag("SetLicense Api").d("SetLicense Api Success But : ${response.status}, ${response.message}")
+                    }
+                },
+                onFailure = {
+                    Timber.tag("SetLicense Api").d("SetLicense Api Failure : ${it.message}")
+                }
+            )
+        }
     }
 
-    private fun changeLicense(license: License) {
-        val homeDummy = HomeDummy.entries.find { it.name == license.name } ?: HomeDummy.DRIVING
-        setState {
-            copy(
-                license = License.entries.find { it.name == homeDummy.license },
-                showChangeLicenseBottomSheet = false,
-                selectedOccupation = Occupation.COMMON,
-                selectedLicense = null,
-                total = homeDummy.total,
-                solved = homeDummy.solved
+    private fun changeLicense() {
+        viewModelScope.launch {
+            runCatching {
+                licenseService.changeLicense(requestBody = SelectLicenseRequestDto(
+                    occupation = currentState.selectedOccupation.name,
+                    license = currentState.selectedLicense!!.title
+                ))
+            }.fold(
+                onSuccess = { response ->
+                    if(response.status == 200) {
+                        setLicense()
+                        setState {
+                            copy(
+                                showChangeLicenseBottomSheet = false,
+                                selectedOccupation = Occupation.COMMON,
+                                selectedLicense = null,
+                            )
+                        }
+                    } else {
+                        Timber.tag("ChangeLicense Api").d("ChangeLicense Api Success But : ${response.status}, ${response.message}")
+                    }
+                },
+                onFailure = {
+                    Timber.tag("ChangeLicense Api").d("ChangeLicense Api Failure : ${it.message}")
+                }
             )
         }
     }

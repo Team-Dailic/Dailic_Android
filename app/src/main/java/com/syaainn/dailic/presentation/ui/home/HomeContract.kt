@@ -8,6 +8,7 @@ import com.syaainn.dailic.presentation.util.base.UiState
 
 class HomeContract {
     data class State(
+        val occupation: Occupation? = null,
         val license: License? = null,
         val showChangeLicenseBottomSheet: Boolean = false,
         val selectedOccupation: Occupation = Occupation.COMMON,
@@ -25,7 +26,7 @@ class HomeContract {
         data object DismissLicenseSelector : Event()
         data class OnOccupationClick(val selectedOccupation: Occupation): Event()
         data class OnLicenseClick(val selectedLicense: License): Event()
-        data class ChangeLicense(val license: License): Event()
+        data object ChangeLicense: Event()
     }
 
     sealed interface SideEffect: UiSideEffect {
