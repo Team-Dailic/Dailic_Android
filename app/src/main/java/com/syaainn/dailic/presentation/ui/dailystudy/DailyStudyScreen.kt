@@ -155,19 +155,19 @@ private fun DailyStudyScreen(
                             painter = painterResource(id = R.drawable.img_scrap),
                             contentDescription = null,
                             modifier = Modifier.padding(12.dp),
-                            colorFilter = ColorFilter.tint(color = if (uiState.todayQuestions[uiState.currentQuestionNum - 1].isScraped == true) Color.Yellow else DailicTheme.colors.gray300)
+                            colorFilter = ColorFilter.tint(color = if (uiState.todayProblems[uiState.currentQuestionNum - 1].isScraped == true) Color.Yellow else DailicTheme.colors.gray300)
                         )
                     }
                 )
                 Text(
-                    text = uiState.todayQuestions[uiState.currentQuestionNum - 1].content,
+                    text = uiState.todayProblems[uiState.currentQuestionNum - 1].content,
                     modifier = Modifier.fillMaxWidth(),
                     color = DailicTheme.colors.gray800,
                     lineHeight = 1.5.em,
                     style = DailicTheme.typography.body2Medium
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                uiState.todayQuestions[uiState.currentQuestionNum - 1].options.forEachIndexed { index, option ->
+                uiState.todayProblems[uiState.currentQuestionNum - 1].options.forEachIndexed { index, option ->
                     Text(
                         text = "${index + 1}. $option",
                         modifier = Modifier
@@ -180,7 +180,7 @@ private fun DailyStudyScreen(
                         color = when {
                             uiState.selectedAnswer == index + 1 -> DailicTheme.colors.subGreen1
                             uiState.dailyStudyState != DailyStudyState.IDLE &&
-                                    uiState.todayQuestions[uiState.currentQuestionNum - 1].answerNum == index + 1 -> Color.Blue
+                                    uiState.todayProblems[uiState.currentQuestionNum - 1].answerNum == index + 1 -> Color.Blue
 
                             else -> DailicTheme.colors.gray800
                         },
@@ -209,7 +209,7 @@ private fun DailyStudyScreen(
                         style = DailicTheme.typography.title2Medium
                     )
                     Text(
-                        text = uiState.todayQuestions[uiState.currentQuestionNum - 1].answerContent,
+                        text = uiState.todayProblems[uiState.currentQuestionNum - 1].answerContent,
                         modifier = Modifier.padding(bottom = 20.dp),
                         color = DailicTheme.colors.gray600,
                         lineHeight = 1.5.em,

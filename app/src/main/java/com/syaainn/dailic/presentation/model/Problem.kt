@@ -3,7 +3,7 @@ package com.syaainn.dailic.presentation.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Question (
+data class Problem (
     val id: Long = 0,
     val isScraped: Boolean? = null,
     val content: String = "",

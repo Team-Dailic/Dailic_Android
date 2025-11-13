@@ -1,7 +1,6 @@
 package com.syaainn.dailic.presentation.ui.dailystudy
 
-import com.syaainn.dailic.data.dummy.DailyStudyDummy
-import com.syaainn.dailic.presentation.model.Question
+import com.syaainn.dailic.presentation.model.Problem
 import com.syaainn.dailic.presentation.util.base.UiEvent
 import com.syaainn.dailic.presentation.util.base.UiSideEffect
 import com.syaainn.dailic.presentation.util.base.UiState
@@ -10,7 +9,7 @@ class DailyStudyContract {
     data class State(
         val currentQuestionNum: Int = 1,
         val totalQuestionNum: Int = 20,
-        val todayQuestions: List<Question> = DailyStudyDummy.questionList,
+        val todayProblems: List<Problem> = emptyList(),
         val selectedAnswer: Int? = null,
         val dailyStudyState: DailyStudyState = DailyStudyState.IDLE,
         val showExitDialog: Boolean = false,

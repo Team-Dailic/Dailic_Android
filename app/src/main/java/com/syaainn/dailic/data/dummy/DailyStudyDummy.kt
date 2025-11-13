@@ -1,10 +1,10 @@
 package com.syaainn.dailic.data.dummy
 
-import com.syaainn.dailic.presentation.model.Question
+import com.syaainn.dailic.presentation.model.Problem
 
 object DailyStudyDummy {
-    val questionList: List<Question> = listOf(
-        Question(
+    val problemLists: List<Problem> = listOf(
+        Problem(
             id = 1,
             isScraped = false,
             content = "다음 중 총중량 1.5톤 피견인 승용자동차를 4.5톤 화물자동차로 견인하는 경우 필요한 운전면허로 바람직하지 않은 것은?",
@@ -17,7 +17,7 @@ object DailyStudyDummy {
             answerNum = 4,
             answerContent = "제2종 보통면허는 승용자동차만 운전할 수 있으며, 대형견인차면허는 필요하지 않습니다. 4.5톤 화물자동차를 운전하기 위해서는 제1종 보통면허 이상이 필요합니다."
         ),
-        Question(
+        Problem(
             id = 21,
             isScraped = true,
             content = "다음 중 도로교통법상 국제운전면허증 발급을 거부할 수 있는 경우는?",
@@ -30,7 +30,7 @@ object DailyStudyDummy {
             answerNum = 4,
             answerContent = "도로교통법 위반으로 부과된 범칙금을 납부기간 내에 납부하지 않은 경우에는 국제운전면허증 발급이 거부될 수 있습니다. 이는 도로교통법 제93조에 근거한 규정입니다."
         ),
-        Question(
+        Problem(
             id = 3,
             isScraped = false,
             content = "시･도경찰청장이 발급한 국제운전면허증의 유효기간은 발급받은 날부터 몇 년인가?",
@@ -43,7 +43,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "국제운전면허증의 유효기간은 발급받은 날부터 1년입니다. 이는 도로교통법 시행령 제89조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 4,
             isScraped = true,
             content = "도로교통법상 승차정원 15인승의 긴급 승합자동차를 처음 운전하려고 할 때 필요한 조건으로 맞는 것은?",
@@ -56,7 +56,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "승차정원 15인승의 긴급 승합자동차를 운전하기 위해서는 제1종 보통면허와 함께 교통안전교육 3시간을 이수해야 합니다. 이는 도로교통법 시행령 제27조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 17,
             isScraped = false,
             content = "도로교통법상 연습운전면허의 유효 기간은?",
@@ -69,7 +69,7 @@ object DailyStudyDummy {
             answerNum = 2,
             answerContent = "연습운전면허의 유효기간은 발급받은 날부터 1년입니다. 이는 도로교통법 제80조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 240,
             isScraped = false,
             content = "도로교통법상 운전면허의 조건 부과기준 중 운전면허증 기재방법으로 바르지 않는 것은?",
@@ -82,7 +82,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "운전면허증의 조건 부과기준에서 'G'는 특수제작 및 승인차가 아닌, 청각장애인 표지 및 볼록거울을 의미합니다. 'E'가 청각장애인 표지 및 볼록거울을 의미합니다."
         ),
-        Question(
+        Problem(
             id = 45,
             isScraped = false,
             content = "승차정원이 11명인 승합자동차로 총중량 780킬로그램의 피견인자동차를 견인하고자 한다. 운전자가 취득해야하는 운전면허의 종류는?",
@@ -95,7 +95,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "승차정원 11명의 승합자동차를 운전하기 위해서는 제1종 보통면허가 필요하고, 피견인자동차를 견인하기 위해서는 소형견인차면허가 필요합니다. 총중량이 750kg 이하인 피견인자동차는 소형견인차면허로 견인할 수 있습니다."
         ),
-        Question(
+        Problem(
             id = 777,
             isScraped = true,
             content = "운전면허 종류별 운전할 수 있는 차에 관한 설명으로 맞는 것 2가지는?",
@@ -108,7 +108,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "제1종 대형면허로는 아스팔트살포기를 운전할 수 있습니다. 제1종 보통면허로는 덤프트럭을 운전할 수 없으며, 제2종 보통면허로는 250cc 이하의 이륜자동차를 운전할 수 있습니다. 제2종 소형면허로는 원동기장치자전거를 운전할 수 있습니다."
         ),
-        Question(
+        Problem(
             id = 1,
             isScraped = false,
             content = "다음 중 총중량 1.5톤 피견인 승용자동차를 4.5톤 화물자동차로 견인하는 경우 필요한 운전면허로 바람직하지 않은 것은?",
@@ -121,7 +121,7 @@ object DailyStudyDummy {
             answerNum = 4,
             answerContent = "제2종 보통면허는 승용자동차만 운전할 수 있으며, 대형견인차면허는 필요하지 않습니다. 4.5톤 화물자동차를 운전하기 위해서는 제1종 보통면허 이상이 필요합니다."
         ),
-        Question(
+        Problem(
             id = 21,
             isScraped = true,
             content = "다음 중 도로교통법상 국제운전면허증 발급을 거부할 수 있는 경우는?",
@@ -134,7 +134,7 @@ object DailyStudyDummy {
             answerNum = 4,
             answerContent = "도로교통법 위반으로 부과된 범칙금을 납부기간 내에 납부하지 않은 경우에는 국제운전면허증 발급이 거부될 수 있습니다. 이는 도로교통법 제93조에 근거한 규정입니다."
         ),
-        Question(
+        Problem(
             id = 3,
             isScraped = false,
             content = "시･도경찰청장이 발급한 국제운전면허증의 유효기간은 발급받은 날부터 몇 년인가?",
@@ -147,7 +147,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "국제운전면허증의 유효기간은 발급받은 날부터 1년입니다. 이는 도로교통법 시행령 제89조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 4,
             isScraped = true,
             content = "도로교통법상 승차정원 15인승의 긴급 승합자동차를 처음 운전하려고 할 때 필요한 조건으로 맞는 것은?",
@@ -160,7 +160,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "승차정원 15인승의 긴급 승합자동차를 운전하기 위해서는 제1종 보통면허와 함께 교통안전교육 3시간을 이수해야 합니다. 이는 도로교통법 시행령 제27조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 17,
             isScraped = false,
             content = "도로교통법상 연습운전면허의 유효 기간은?",
@@ -173,7 +173,7 @@ object DailyStudyDummy {
             answerNum = 2,
             answerContent = "연습운전면허의 유효기간은 발급받은 날부터 1년입니다. 이는 도로교통법 제80조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 240,
             isScraped = false,
             content = "도로교통법상 운전면허의 조건 부과기준 중 운전면허증 기재방법으로 바르지 않는 것은?",
@@ -186,7 +186,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "운전면허증의 조건 부과기준에서 'G'는 특수제작 및 승인차가 아닌, 청각장애인 표지 및 볼록거울을 의미합니다. 'E'가 청각장애인 표지 및 볼록거울을 의미합니다."
         ),
-        Question(
+        Problem(
             id = 45,
             isScraped = false,
             content = "승차정원이 11명인 승합자동차로 총중량 780킬로그램의 피견인자동차를 견인하고자 한다. 운전자가 취득해야하는 운전면허의 종류는?",
@@ -199,7 +199,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "승차정원 11명의 승합자동차를 운전하기 위해서는 제1종 보통면허가 필요하고, 피견인자동차를 견인하기 위해서는 소형견인차면허가 필요합니다. 총중량이 750kg 이하인 피견인자동차는 소형견인차면허로 견인할 수 있습니다."
         ),
-        Question(
+        Problem(
             id = 777,
             isScraped = true,
             content = "운전면허 종류별 운전할 수 있는 차에 관한 설명으로 맞는 것 2가지는?",
@@ -212,7 +212,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "제1종 대형면허로는 아스팔트살포기를 운전할 수 있습니다. 제1종 보통면허로는 덤프트럭을 운전할 수 없으며, 제2종 보통면허로는 250cc 이하의 이륜자동차를 운전할 수 있습니다. 제2종 소형면허로는 원동기장치자전거를 운전할 수 있습니다."
         ),
-        Question(
+        Problem(
             id = 4,
             isScraped = true,
             content = "도로교통법상 승차정원 15인승의 긴급 승합자동차를 처음 운전하려고 할 때 필요한 조건으로 맞는 것은?",
@@ -225,7 +225,7 @@ object DailyStudyDummy {
             answerNum = 1,
             answerContent = "승차정원 15인승의 긴급 승합자동차를 운전하기 위해서는 제1종 보통면허와 함께 교통안전교육 3시간을 이수해야 합니다. 이는 도로교통법 시행령 제27조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 17,
             isScraped = false,
             content = "도로교통법상 연습운전면허의 유효 기간은?",
@@ -238,7 +238,7 @@ object DailyStudyDummy {
             answerNum = 2,
             answerContent = "연습운전면허의 유효기간은 발급받은 날부터 1년입니다. 이는 도로교통법 제80조에 규정되어 있습니다."
         ),
-        Question(
+        Problem(
             id = 70,
             isScraped = false,
             content = "다음 중 총중량 1.5톤 피견인 승용자동차를 4.5톤 화물자동차로 견인하는 경우 필요한 운전면허로 바람직하지 않은 것은?",
@@ -251,7 +251,7 @@ object DailyStudyDummy {
             answerNum = 4,
             answerContent = "제2종 보통면허는 승용자동차만 운전할 수 있으며, 대형견인차면허는 필요하지 않습니다. 4.5톤 화물자동차를 운전하기 위해서는 제1종 보통면허 이상이 필요합니다."
         ),
-        Question(
+        Problem(
             id = 113,
             isScraped = false,
             content = "시･도경찰청장이 발급한 국제운전면허증의 유효기간은 발급받은 날부터 몇 년인가?",
