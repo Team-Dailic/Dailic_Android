@@ -35,13 +35,13 @@ fun DailicDialog(
     confirmOption: String,
     onConfirm: () -> Unit,
     dismissOption: String,
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
             dismissOnClickOutside = false,
-            usePlatformDefaultWidth = false,
+            usePlatformDefaultWidth = false
         )
     ) {
         Box(
@@ -54,7 +54,9 @@ fun DailicDialog(
                 Card(
                     modifier = Modifier.wrapContentHeight(),
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = DailicTheme.colors.primaryBeige1),
+                    colors = CardDefaults.cardColors(
+                        containerColor = DailicTheme.colors.primaryBeige1
+                    )
                 ) {
                     Column(
                         modifier = Modifier.padding(24.dp),
@@ -65,14 +67,14 @@ fun DailicDialog(
                             text = titleMassage,
                             modifier = Modifier.padding(vertical = 8.dp),
                             color = DailicTheme.colors.gray800,
-                            style = DailicTheme.typography.head3Bold,
+                            style = DailicTheme.typography.head3Bold
                         )
                         // Description
                         Text(
                             text = descriptionMassage,
                             color = DailicTheme.colors.gray400,
                             textAlign = TextAlign.Center,
-                            style = DailicTheme.typography.body3Regular,
+                            style = DailicTheme.typography.body3Regular
                         )
 
                         Spacer(modifier = Modifier.height(24.dp))
@@ -87,14 +89,14 @@ fun DailicDialog(
                                         .weight(1f)
                                         .background(
                                             color = DailicTheme.colors.gray400,
-                                            shape = RoundedCornerShape(8.dp),
+                                            shape = RoundedCornerShape(8.dp)
                                         ),
-                                    colors = ButtonDefaults.buttonColors(DailicTheme.colors.gray400),
+                                    colors = ButtonDefaults.buttonColors(DailicTheme.colors.gray400)
                                 ) {
                                     Text(
                                         text = dismissOption,
                                         color = DailicTheme.colors.primaryBeige1,
-                                        style = DailicTheme.typography.body1Bold,
+                                        style = DailicTheme.typography.body1Bold
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -104,14 +106,14 @@ fun DailicDialog(
                                         .weight(1f)
                                         .background(
                                             color = DailicTheme.colors.gray800,
-                                            shape = RoundedCornerShape(8.dp),
+                                            shape = RoundedCornerShape(8.dp)
                                         ),
-                                    colors = ButtonDefaults.buttonColors(DailicTheme.colors.gray800),
+                                    colors = ButtonDefaults.buttonColors(DailicTheme.colors.gray800)
                                 ) {
                                     Text(
                                         text = confirmOption,
                                         color = DailicTheme.colors.primaryBeige1,
-                                        style = DailicTheme.typography.body1Bold,
+                                        style = DailicTheme.typography.body1Bold
                                     )
                                 }
                             }

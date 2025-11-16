@@ -33,7 +33,7 @@ fun LicenseRoute(
     viewModel: LicenseViewModel = hiltViewModel(),
     occupation: Occupation,
     navigateToBack: () -> Unit,
-    navigateToHome: () -> Unit,
+    navigateToHome: () -> Unit
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -51,7 +51,11 @@ fun LicenseRoute(
         uiState = uiState,
         occupation = occupation,
         onBackClick = { viewModel.sendSideEffect(LicenseContract.SideEffect.NavigateToBack) },
-        onLicenseClick = { license -> viewModel.setEvent(LicenseContract.Event.OnLicenseClick(license)) },
+        onLicenseClick = { license ->
+            viewModel.setEvent(
+                LicenseContract.Event.OnLicenseClick(license)
+            )
+        },
         onNextClick = { viewModel.setEvent(LicenseContract.Event.OnCompleteClick(occupation)) }
     )
 }
@@ -62,7 +66,7 @@ fun LicenseScreen(
     occupation: Occupation,
     onBackClick: () -> Unit,
     onLicenseClick: (License) -> Unit,
-    onNextClick: () -> Unit,
+    onNextClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -133,7 +137,8 @@ fun LicenseScreen(
                 .fillMaxWidth()
                 .roundedBackgroundWithBorder(
                     cornerRadius = 8.dp,
-                    backgroundColor = if (uiState.selectedLicense != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray400)
+                    backgroundColor = if (uiState.selectedLicense != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray400
+                )
                 .clickable(enabled = uiState.selectedLicense != null, onClick = onNextClick),
             contentAlignment = Alignment.Center,
             content = {

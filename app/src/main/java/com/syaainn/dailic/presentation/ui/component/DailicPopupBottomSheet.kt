@@ -22,7 +22,7 @@ import com.syaainn.dailic.ui.theme.DailicTheme
 @Composable
 fun DailicPopupBottomSheet(
     content: @Composable () -> Unit,
-    onDismissRequest: () -> Unit = {},
+    onDismissRequest: () -> Unit = {}
 ) {
     Box(
         Modifier
@@ -36,19 +36,19 @@ fun DailicPopupBottomSheet(
                 focusable = true,
                 dismissOnBackPress = true,
                 dismissOnClickOutside = true,
-                excludeFromSystemGesture = false,
-            ),
+                excludeFromSystemGesture = false
+            )
         ) {
             AnimatedVisibility(
                 visible = true,
                 enter = slideInVertically(
                     initialOffsetY = { it },
-                    animationSpec = tween(durationMillis = 300),
+                    animationSpec = tween(durationMillis = 300)
                 ),
                 exit = slideOutVertically(
                     targetOffsetY = { it },
-                    animationSpec = tween(durationMillis = 300),
-                ),
+                    animationSpec = tween(durationMillis = 300)
+                )
             ) {
                 Surface(
                     modifier = Modifier
@@ -56,7 +56,7 @@ fun DailicPopupBottomSheet(
                         .wrapContentHeight()
                         .align(Alignment.BottomCenter),
                     shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                    color = DailicTheme.colors.primaryBeige1,
+                    color = DailicTheme.colors.primaryBeige1
                 ) {
                     content()
                 }

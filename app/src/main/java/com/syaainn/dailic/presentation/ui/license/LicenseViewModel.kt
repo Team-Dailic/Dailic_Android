@@ -7,9 +7,9 @@ import com.syaainn.dailic.presentation.model.License
 import com.syaainn.dailic.presentation.model.Occupation
 import com.syaainn.dailic.presentation.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class LicenseViewModel @Inject constructor(
@@ -24,7 +24,10 @@ class LicenseViewModel @Inject constructor(
                 setState { copy(selectedLicense = event.selectedLicense) }
             }
             is LicenseContract.Event.OnCompleteClick -> {
-                selectLicense(occupation = event.selectedOccupation, license = currentState.selectedLicense ?: License.DRIVING)
+                selectLicense(
+                    occupation = event.selectedOccupation,
+                    license = currentState.selectedLicense ?: License.DRIVING
+                )
             }
         }
     }
@@ -34,16 +37,20 @@ class LicenseViewModel @Inject constructor(
     private fun selectLicense(occupation: Occupation, license: License) {
         viewModelScope.launch {
             runCatching {
-                licenseService.selectLicense(requestBody = SelectLicenseRequestDto(
-                    occupation = occupation.name,
-                    license = license.title
-                ))
+                licenseService.selectLicense(
+                    requestBody = SelectLicenseRequestDto(
+                        occupation = occupation.name,
+                        license = license.title
+                    )
+                )
             }.fold(
                 onSuccess = { response ->
-                    if(response.status == 200) {
+                    if (response.status == 200) {
                         setSideEffect(LicenseContract.SideEffect.NavigateToHome)
                     } else {
-                        Timber.tag("SelectLicense Api").d("SelectLicense Api Success But : ${response.status}, ${response.message}")
+                        Timber.tag("SelectLicense Api").d(
+                            "SelectLicense Api Success But : ${response.status}, ${response.message}"
+                        )
                     }
                 },
                 onFailure = {

@@ -60,7 +60,7 @@ fun DailicTopBar(
 private fun PreviewOccupationTopBar() {
     DAILICTheme {
         DailicTopBar(
-            title = "직군 선택",
+            title = "직군 선택"
         )
     }
 }

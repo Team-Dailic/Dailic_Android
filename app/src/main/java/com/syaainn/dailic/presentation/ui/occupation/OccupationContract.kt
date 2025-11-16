@@ -8,13 +8,13 @@ import com.syaainn.dailic.presentation.util.base.UiState
 class OccupationContract {
     data class State(
         val selectedOccupation: Occupation? = null
-    ): UiState
+    ) : UiState
 
-    sealed class Event: UiEvent {
-        data class OnOccupationClick(val selectedOccupation: Occupation): Event()
+    sealed class Event : UiEvent {
+        data class OnOccupationClick(val selectedOccupation: Occupation) : Event()
     }
 
-    sealed interface SideEffect: UiSideEffect {
-        data object NavigateToLicense: SideEffect
+    sealed interface SideEffect : UiSideEffect {
+        data object NavigateToLicense : SideEffect
     }
 }

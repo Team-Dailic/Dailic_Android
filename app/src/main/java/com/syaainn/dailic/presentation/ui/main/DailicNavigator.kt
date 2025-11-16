@@ -1,7 +1,6 @@
 package com.syaainn.dailic.presentation.ui.main
 
 import androidx.navigation.NavController
-import com.syaainn.dailic.presentation.model.License
 import com.syaainn.dailic.presentation.model.Occupation
 
 fun NavController.navigateToSplash() {
@@ -51,4 +50,3 @@ fun NavController.navigateToSetting() {
         route = Route.Setting
     )
 }
-

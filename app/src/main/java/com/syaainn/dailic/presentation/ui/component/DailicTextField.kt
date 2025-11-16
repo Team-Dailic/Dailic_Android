@@ -28,7 +28,7 @@ fun DailicTextField(
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 1.dp),
+                .padding(horizontal = 1.dp)
         )
         Spacer(
             modifier = Modifier.height(1.dp)

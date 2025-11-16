@@ -5,9 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class OccupationViewModel @Inject constructor(
-
-) : BaseViewModel<OccupationContract.State, OccupationContract.Event, OccupationContract.SideEffect>() {
+class OccupationViewModel @Inject constructor() : BaseViewModel<OccupationContract.State, OccupationContract.Event, OccupationContract.SideEffect>() {
 
     override fun createInitialState(): OccupationContract.State = OccupationContract.State()
 

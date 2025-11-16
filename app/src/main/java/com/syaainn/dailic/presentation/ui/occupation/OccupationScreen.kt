@@ -43,14 +43,20 @@ fun OccupationRoute(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle).collect { sideEffect ->
             when (sideEffect) {
-                OccupationContract.SideEffect.NavigateToLicense -> navigateToLicense(uiState.selectedOccupation!!)
+                OccupationContract.SideEffect.NavigateToLicense -> navigateToLicense(
+                    uiState.selectedOccupation!!
+                )
             }
         }
     }
 
     OccupationScreen(
         uiState = uiState,
-        onOccupationClick = { occupation -> viewModel.setEvent(OccupationContract.Event.OnOccupationClick(occupation)) },
+        onOccupationClick = { occupation ->
+            viewModel.setEvent(
+                OccupationContract.Event.OnOccupationClick(occupation)
+            )
+        },
         onNextClick = { viewModel.sendSideEffect(OccupationContract.SideEffect.NavigateToLicense) }
     )
 }
@@ -132,7 +138,7 @@ fun OccupationScreen(
                 .fillMaxWidth()
                 .roundedBackgroundWithBorder(
                     cornerRadius = 8.dp,
-                    backgroundColor = if (uiState.selectedOccupation != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray400,
+                    backgroundColor = if (uiState.selectedOccupation != null) DailicTheme.colors.gray800 else DailicTheme.colors.gray400
                 )
                 .clickable(enabled = uiState.selectedOccupation != null, onClick = onNextClick),
             contentAlignment = Alignment.Center,

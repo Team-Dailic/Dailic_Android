@@ -8,12 +8,12 @@ import androidx.navigation.compose.rememberNavController
 
 @Stable
 class DailicAppState(
-    val navController: NavHostController,
+    val navController: NavHostController
 ) {
     val startDestination = Route.Splash
 }
 
 @Composable
 fun rememberDailicAppState(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberNavController()
 ): DailicAppState = remember { DailicAppState(navController) }
