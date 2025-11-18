@@ -7,19 +7,19 @@ import com.syaainn.dailic.presentation.model.License
 import com.syaainn.dailic.presentation.model.Occupation
 import com.syaainn.dailic.presentation.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val licenseService: LicenseService
-): BaseViewModel<HomeContract.State, HomeContract.Event, HomeContract.SideEffect>() {
+) : BaseViewModel<HomeContract.State, HomeContract.Event, HomeContract.SideEffect>() {
 
     override fun createInitialState(): HomeContract.State = HomeContract.State()
 
     override suspend fun handleEvent(event: HomeContract.Event) {
-        when(event) {
+        when (event) {
             is HomeContract.Event.SetLicense -> {
                 setLicense()
             }
@@ -27,10 +27,21 @@ class HomeViewModel @Inject constructor(
                 setState { copy(showChangeLicenseBottomSheet = true) }
             }
             is HomeContract.Event.DismissLicenseSelector -> {
-                setState { copy(showChangeLicenseBottomSheet = false, selectedOccupation = Occupation.COMMON, selectedLicense = null) }
+                setState {
+                    copy(
+                        showChangeLicenseBottomSheet = false,
+                        selectedOccupation = Occupation.COMMON,
+                        selectedLicense = null
+                    )
+                }
             }
             is HomeContract.Event.OnOccupationClick -> {
-                setState { copy(selectedOccupation = event.selectedOccupation, selectedLicense = null) }
+                setState {
+                    copy(
+                        selectedOccupation = event.selectedOccupation,
+                        selectedLicense = null
+                    )
+                }
             }
             is HomeContract.Event.OnLicenseClick -> {
                 setState { copy(selectedLicense = event.selectedLicense) }
@@ -47,15 +58,19 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { licenseService.getCurrentLicense() }.fold(
                 onSuccess = { response ->
-                    if(response.status == 200) {
-                        setState{ copy(
-                            occupation = Occupation.entries.find { it.name == response.data.occupation },
-                            license = License.entries.find { it.title == response.data.license },
-                            total = response.data.totalQuestion,
-                            solved = response.data.solvedQuestion
-                        )}
+                    if (response.status == 200) {
+                        setState {
+                            copy(
+                                occupation = Occupation.entries.find { it.name == response.data.occupation },
+                                license = License.entries.find { it.title == response.data.license },
+                                total = response.data.totalQuestion,
+                                solved = response.data.solvedQuestion
+                            )
+                        }
                     } else {
-                        Timber.tag("SetLicense Api").d("SetLicense Api Success But : ${response.status}, ${response.message}")
+                        Timber.tag("SetLicense Api").d(
+                            "SetLicense Api Success But : ${response.status}, ${response.message}"
+                        )
                     }
                 },
                 onFailure = {
@@ -68,23 +83,27 @@ class HomeViewModel @Inject constructor(
     private fun changeLicense() {
         viewModelScope.launch {
             runCatching {
-                licenseService.changeLicense(requestBody = SelectLicenseRequestDto(
-                    occupation = currentState.selectedOccupation.name,
-                    license = currentState.selectedLicense!!.title
-                ))
+                licenseService.changeLicense(
+                    requestBody = SelectLicenseRequestDto(
+                        occupation = currentState.selectedOccupation.name,
+                        license = currentState.selectedLicense!!.title
+                    )
+                )
             }.fold(
                 onSuccess = { response ->
-                    if(response.status == 200) {
+                    if (response.status == 200) {
                         setLicense()
                         setState {
                             copy(
                                 showChangeLicenseBottomSheet = false,
                                 selectedOccupation = Occupation.COMMON,
-                                selectedLicense = null,
+                                selectedLicense = null
                             )
                         }
                     } else {
-                        Timber.tag("ChangeLicense Api").d("ChangeLicense Api Success But : ${response.status}, ${response.message}")
+                        Timber.tag("ChangeLicense Api").d(
+                            "ChangeLicense Api Success But : ${response.status}, ${response.message}"
+                        )
                     }
                 },
                 onFailure = {

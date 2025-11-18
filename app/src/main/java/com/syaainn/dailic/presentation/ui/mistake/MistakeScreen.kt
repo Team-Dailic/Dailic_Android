@@ -66,7 +66,7 @@ fun MistakeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
     ) {
         // Top Bar
         DailicTopBar(
@@ -98,7 +98,7 @@ fun MistakeScreen(
                         .padding(vertical = 10.dp)
                         .roundedBackgroundWithBorder(
                             cornerRadius = 8.dp,
-                            backgroundColor = DailicTheme.colors.gray700,
+                            backgroundColor = DailicTheme.colors.gray700
                         ),
                     content = {
                         Row(
@@ -124,7 +124,9 @@ fun MistakeScreen(
                                 style = DailicTheme.typography.body2Medium
                             )
                             Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_refresh_24),
+                                imageVector = ImageVector.vectorResource(
+                                    id = R.drawable.ic_refresh_24
+                                ),
                                 contentDescription = null,
                                 modifier = Modifier.padding(horizontal = 10.dp),
                                 tint = DailicTheme.colors.gray300

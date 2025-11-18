@@ -21,18 +21,18 @@ class HomeContract {
     }
 
     sealed class Event : UiEvent {
-        data object SetLicense: Event()
+        data object SetLicense : Event()
         data object ShowLicenseSelector : Event()
         data object DismissLicenseSelector : Event()
-        data class OnOccupationClick(val selectedOccupation: Occupation): Event()
-        data class OnLicenseClick(val selectedLicense: License): Event()
-        data object ChangeLicense: Event()
+        data class OnOccupationClick(val selectedOccupation: Occupation) : Event()
+        data class OnLicenseClick(val selectedLicense: License) : Event()
+        data object ChangeLicense : Event()
     }
 
-    sealed interface SideEffect: UiSideEffect {
-        data object NavigateToSetting: SideEffect
-        data object NavigateToDailyStudy: SideEffect
-        data object NavigateToMistake: SideEffect
-        data object NavigateToScrap: SideEffect
+    sealed interface SideEffect : UiSideEffect {
+        data object NavigateToSetting : SideEffect
+        data object NavigateToDailyStudy : SideEffect
+        data object NavigateToMistake : SideEffect
+        data object NavigateToScrap : SideEffect
     }
 }

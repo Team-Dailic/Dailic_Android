@@ -67,7 +67,7 @@ fun ScrapScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
     ) {
         // Top Bar
         DailicTopBar(
@@ -99,7 +99,7 @@ fun ScrapScreen(
                         .padding(vertical = 10.dp)
                         .roundedBackgroundWithBorder(
                             cornerRadius = 8.dp,
-                            backgroundColor = DailicTheme.colors.gray700,
+                            backgroundColor = DailicTheme.colors.gray700
                         ),
                     content = {
                         Row(
@@ -128,7 +128,9 @@ fun ScrapScreen(
                                 painter = painterResource(id = R.drawable.img_scrap),
                                 contentDescription = null,
                                 modifier = Modifier.padding(horizontal = 10.dp),
-                                colorFilter = ColorFilter.tint(color = if(scrap.isScraped != false) Color.Yellow else DailicTheme.colors.gray300)
+                                colorFilter = ColorFilter.tint(
+                                    color = if (scrap.isScraped) Color.Yellow else DailicTheme.colors.gray300
+                                )
                             )
                         }
                     }

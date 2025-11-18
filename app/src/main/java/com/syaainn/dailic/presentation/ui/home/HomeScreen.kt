@@ -78,8 +78,16 @@ fun HomeRoute(
         uiState = uiState,
         onLicenseSelectorClick = { viewModel.setEvent(HomeContract.Event.ShowLicenseSelector) },
         onDismissClick = { viewModel.setEvent(HomeContract.Event.DismissLicenseSelector) },
-        onOccupationClick = { selectedOccupation -> viewModel.setEvent(HomeContract.Event.OnOccupationClick(selectedOccupation)) },
-        onLicenseClick = { selectedLicense -> viewModel.setEvent(HomeContract.Event.OnLicenseClick(selectedLicense)) },
+        onOccupationClick = { selectedOccupation ->
+            viewModel.setEvent(
+                HomeContract.Event.OnOccupationClick(selectedOccupation)
+            )
+        },
+        onLicenseClick = { selectedLicense ->
+            viewModel.setEvent(
+                HomeContract.Event.OnLicenseClick(selectedLicense)
+            )
+        },
         onChangeLicenseClick = { viewModel.setEvent(HomeContract.Event.ChangeLicense) },
         onSettingClick = { viewModel.sendSideEffect(HomeContract.SideEffect.NavigateToSetting) },
         onDailyStudyClick = { viewModel.sendSideEffect(HomeContract.SideEffect.NavigateToDailyStudy) },
@@ -176,7 +184,10 @@ fun HomeScreen(
         )
 
         Text(
-            text = "${uiState.license?.title} 문제 완독까지 ${uiState.solved} / ${uiState.total} 문제 (${String.format("%.1f", uiState.progress * 100)}%)",
+            text = "${uiState.license?.title} 문제 완독까지 ${uiState.solved} / ${uiState.total} 문제 (${String.format(
+                "%.1f",
+                uiState.progress * 100
+            )}%)",
             modifier = Modifier.align(Alignment.Start),
             color = DailicTheme.colors.gray800,
             overflow = TextOverflow.Ellipsis,
@@ -303,12 +314,23 @@ fun HomeScreen(
                                                     modifier = Modifier
                                                         .weight(1f)
                                                         .height(itemHeight)
-                                                        .clickable(onClick = { onOccupationClick(occupation) })
-                                                        .background(color =
-                                                            if (uiState.selectedOccupation == occupation) DailicTheme.colors.black.copy(alpha = 0.2f)
-                                                            else Color.Transparent
+                                                        .clickable(
+                                                            onClick = {
+                                                                onOccupationClick(
+                                                                    occupation
+                                                                )
+                                                            }
                                                         )
-                                                    ,
+                                                        .background(
+                                                            color =
+                                                            if (uiState.selectedOccupation == occupation) {
+                                                                DailicTheme.colors.black.copy(
+                                                                    alpha = 0.2f
+                                                                )
+                                                            } else {
+                                                                Color.Transparent
+                                                            }
+                                                        ),
                                                     content = {
                                                         Text(
                                                             text = occupation.title,
@@ -334,10 +356,18 @@ fun HomeScreen(
                                                     modifier = Modifier
                                                         .weight(1f)
                                                         .height(itemHeight)
-                                                        .clickable(onClick = { onLicenseClick(license) })
-                                                        .background(color =
-                                                            if (uiState.selectedLicense == license) DailicTheme.colors.black.copy(alpha = 0.2f)
-                                                            else Color.Transparent
+                                                        .clickable(
+                                                            onClick = { onLicenseClick(license) }
+                                                        )
+                                                        .background(
+                                                            color =
+                                                            if (uiState.selectedLicense == license) {
+                                                                DailicTheme.colors.black.copy(
+                                                                    alpha = 0.2f
+                                                                )
+                                                            } else {
+                                                                Color.Transparent
+                                                            }
                                                         ),
                                                     content = {
                                                         Text(
@@ -363,7 +393,7 @@ fun HomeScreen(
                                 .padding(16.dp)
                                 .roundedBackgroundWithBorder(
                                     cornerRadius = 8.dp,
-                                    backgroundColor = if(uiState.selectedLicense != null) DailicTheme.colors.gray600 else DailicTheme.colors.gray300,
+                                    backgroundColor = if (uiState.selectedLicense != null) DailicTheme.colors.gray600 else DailicTheme.colors.gray300
                                 )
                                 .clickable(onClick = onChangeLicenseClick),
                             contentAlignment = Alignment.Center,

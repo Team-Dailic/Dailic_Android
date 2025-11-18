@@ -20,12 +20,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 android.graphics.Color.TRANSPARENT,
-                android.graphics.Color.TRANSPARENT,
+                android.graphics.Color.TRANSPARENT
             ),
             navigationBarStyle = SystemBarStyle.light(
                 android.graphics.Color.WHITE,
-                android.graphics.Color.WHITE,
-            ),
+                android.graphics.Color.WHITE
+            )
         )
 
         setContent {
