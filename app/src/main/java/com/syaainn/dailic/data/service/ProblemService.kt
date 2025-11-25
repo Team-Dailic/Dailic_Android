@@ -54,8 +54,10 @@ interface ProblemService {
         @Query("includeSolution") includeSolution: Boolean
     ): ApiResponse<GetAiSolutionResponseDto>
 
-    @POST("/ai/ask")
+    @POST("/ai/ask/{problemId}")
     suspend fun postAiQuestion(
+        @Path("problemId") problemId: Long,
+        @Query("userId") userId: Long = 1,
         @Body requestBody: PostAiQuestionRequestDto
     ): ApiResponse<PostAiQuestionResponseDto>
 }

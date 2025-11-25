@@ -16,6 +16,7 @@ class DailyStudyContract {
         val showExitDialog: Boolean = false,
         val showFinishDialog: Boolean = false,
         val aiQuestion: String = "",
+        val aiQuestionResponse: String = ""
     ) : UiState {
         val progress: Float = currentQuestionNum.toFloat() / totalQuestionNum
         val progressWeight = progress.coerceIn(0.0001f, 0.9999f)

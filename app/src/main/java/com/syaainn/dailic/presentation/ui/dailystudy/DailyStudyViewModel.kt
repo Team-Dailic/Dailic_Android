@@ -97,6 +97,8 @@ class DailyStudyViewModel @Inject constructor(
                         currentQuestionNum = currentQuestionNum + 1,
                         selectedAnswer = null,
                         dailyStudyState = DailyStudyState.IDLE,
+                        aiQuestion = "",
+                        aiQuestionResponse = ""
                     )
                 }
             }
@@ -194,9 +196,7 @@ class DailyStudyViewModel @Inject constructor(
                     }
                 },
                 onFailure = {
-                    Timber.tag("PutScrapProblem Api").d(
-                        "PutScrapProblem Api Failure : ${it.message}"
-                    )
+                    Timber.tag("PutScrapProblem Api").d("PutScrapProblem Api Failure : ${it.message}")
                 }
             )
         }
@@ -206,14 +206,15 @@ class DailyStudyViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 problemService.postAiQuestion(
-                    PostAiQuestionRequestDto(currentState.aiQuestion)
+                    problemId = currentState.todayProblems[currentState.currentQuestionNum - 1].id,
+                    requestBody = PostAiQuestionRequestDto(currentState.aiQuestion)
                 )
             }.fold(
-                onSuccess = {
-
+                onSuccess = { response ->
+                    setState { copy(aiQuestionResponse = response.data.answer) }
                 },
                 onFailure = {
-
+                    Timber.tag("PostAiQuestion Api").d("PostAiQuestion Api Failure : ${it.message}")
                 }
             )
         }

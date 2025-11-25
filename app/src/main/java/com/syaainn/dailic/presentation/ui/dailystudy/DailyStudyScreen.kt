@@ -224,7 +224,7 @@ private fun DailyStudyScreen(
                         )
                         // Answer Section
                         Text(
-                            text = "[ 해설 ]",
+                            text = "[해설]",
                             modifier = Modifier
                                 .align(Alignment.Start)
                                 .padding(bottom = 10.dp),
@@ -234,7 +234,7 @@ private fun DailyStudyScreen(
                         Text(
                             text = uiState.todayProblems[uiState.currentQuestionNum - 1].solution
                                 ?: "문제의 해설을 생성 중입니다.",
-                            modifier = Modifier.padding(bottom = 20.dp),
+                            modifier = Modifier.padding(bottom = 30.dp),
                             color = DailicTheme.colors.gray600,
                             lineHeight = 1.5.em,
                             style = DailicTheme.typography.body4Regular
@@ -242,18 +242,27 @@ private fun DailyStudyScreen(
                         // Ai Question Section
                         Column {
                             Text(
-                                text = "[ AI에게 질문하기 ]",
+                                text = "[AI에게 질문하기]",
                                 modifier = Modifier
                                     .align(Alignment.Start)
                                     .padding(bottom = 10.dp),
                                 color = DailicTheme.colors.gray700,
                                 style = DailicTheme.typography.title2Medium
                             )
-                            DailicTextField(
-                                value = uiState.aiQuestion,
-                                onValueChange = onAiQuestionChange,
-                                modifier = Modifier.padding(vertical = 4.dp)
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .padding(bottom = 10.dp)
+                                    .roundedBackgroundWithBorder(
+                                        cornerRadius = 8.dp,
+                                        backgroundColor = Color(0xFFD9D9D9)
+                                    )
+                            ) {
+                                DailicTextField(
+                                    value = uiState.aiQuestion,
+                                    onValueChange = onAiQuestionChange,
+                                    modifier = Modifier.padding(8.dp)
+                                )
+                            }
                             Box(
                                 modifier = Modifier
                                     .align(Alignment.End)
@@ -275,17 +284,22 @@ private fun DailyStudyScreen(
                                     )
                                 }
                             )
-//                            if (uiState.aiSolution != null) {
-//                                Spacer(modifier = Modifier.height(16.dp))
-//                                Text(
-//                                    text = uiState.aiSolution,
-//                                    modifier = Modifier.padding(bottom = 20.dp),
-//                                    color = DailicTheme.colors.gray600,
-//                                    lineHeight = 1.5.em,
-//                                    style = DailicTheme.typography.body4Regular
-//                                )
-//                            }
                         }
+                        Text(
+                            text = "[AI 답장]",
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(bottom = 10.dp),
+                            color = DailicTheme.colors.gray700,
+                            style = DailicTheme.typography.title2Medium
+                        )
+                        Text(
+                            text = uiState.aiQuestionResponse.ifEmpty { "AI 답장이 존재하지 않습니다." },
+                            modifier = Modifier.padding(bottom = 30.dp),
+                            color = DailicTheme.colors.gray600,
+                            lineHeight = 1.5.em,
+                            style = DailicTheme.typography.body4Regular
+                        )
                     }
                 }
             }
